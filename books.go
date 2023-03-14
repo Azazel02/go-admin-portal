@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -28,8 +29,41 @@ var books []Book
 
 // Get All Books
 func getBooks(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(books)
+
+	/*	w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(books)*/
+	//logPrefix := "BooksGet"
+	books := []*Book{}
+
+	stmt, err := DB.Prepare(`SELECT books.id,books.isbn,books.title,author.firstname,author.lastname from Books inner join author on author.id =books.Author_id`)
+	if err != nil {
+		//log.Println("%s failed to prepare stmt", err.Error())
+		log.Printf("%s failed to prepare stmt", err.Error())
+		//log.Print("%s failed to prepare stmt", err.Error())
+		return
+	}
+	rows, err := stmt.Query()
+	if err != nil {
+		log.Printf("%s query error", err.Error())
+		return
+	}
+	for rows.Next() {
+		var data_rec Book
+		data_rec.Author = &Author{}
+		err = rows.Scan(&data_rec.ID, &data_rec.Isbn, &data_rec.Title, &data_rec.Author.Firstname, &data_rec.Author.Lastname)
+		if err != nil {
+			log.Printf("%s failed scan", err.Error())
+			return
+		}
+		books = append(books, &data_rec)
+		log.Printf("current books value : %+v", books)
+	}
+	response, err := json.Marshal(books)
+	if err != nil {
+		log.Printf("%s failed to marshal", err.Error())
+		return
+	}
+	_, _ = w.Write(response)
 }
 
 // Get Single Book
