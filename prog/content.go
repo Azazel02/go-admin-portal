@@ -1,4 +1,4 @@
-package prog
+package main
 
 func main() {
 
@@ -46,4 +46,32 @@ func main() {
 	// }
 	// fmt.Println("sum is:", sum)
 
+	// i, j, row := 0, 0, 0
+
+	// print("enter rows:") 		//star pattern + no pattern
+	// fmt.Scan(&row)
+	// for i = 1; i <= row; i++ {
+	// 	for j = 1; j <= i; j++ {
+	// 		print(i)				// switch i with "*"
+	// 	}
+	// 	print("\n")
+	// }
+
+	// i, f, num := 0, 1, 0
+	// print("enter no:")
+	// fmt.Scan(&num)					//factorial
+	// for i = 1; i <= num; i++ {
+	// 	f = f * i
+	// }
+	// println("factorial is:", f)
+
+	// i, a, sum := 0, 0, 0
+	// print("enter no of terms:")
+	// fmt.Scan(&a)						//sum of input terms even no
+	// print("even no are:")
+	// for i = 1; i <= a; i++ {
+	// 	print(2*i, "  ")
+	// 	sum += 2 * i
+	// }
+	// println("\nthere sum is:", sum)
 }
